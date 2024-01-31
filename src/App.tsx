@@ -12,7 +12,16 @@ import { address, abi } from "./constant/addressBook.json";
 export default function Home() {
   // const { contract } = useContract(address, abi);
 
-  // const { contract } = useContract(address, abi);
+  const { contract } = useContract(
+    "0x8e7C31ba0bB7d37251A6c3b9F6a9A2fD6fA55f76"
+  );
+
+  const { data: totalSupply, isLoading } = useContractRead(
+    contract,
+    "totalSupply"
+  );
+
+  // console.log("totalSupply", totalSupply.toString());
 
   // const { data: Contacts } = useContractRead(contract, "getContacts");
 

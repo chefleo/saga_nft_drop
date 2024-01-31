@@ -1,7 +1,26 @@
-import { ConnectWallet } from "@thirdweb-dev/react";
+import {
+  ConnectWallet,
+  useContract,
+  useContractRead,
+  useContractWrite,
+  Web3Button,
+} from "@thirdweb-dev/react";
 import "./styles/Home.css";
 
+import { address, abi } from "./constant/addressBook.json";
+
 export default function Home() {
+  // const { contract } = useContract(address, abi);
+
+  // const { contract } = useContract(address, abi);
+
+  // const { data: Contacts } = useContractRead(contract, "getContacts");
+
+  // console.log("contacts", Contacts);
+  // console.log("abi", abi);
+
+  // const { mutate: addContact } = useContractWrite(contract, "addContact");
+
   return (
     <main className="main">
       <div className="container">
@@ -26,13 +45,18 @@ export default function Home() {
           </p>
 
           <div className="connect">
-            <ConnectWallet
-              dropdownPosition={{
-                side: "bottom",
-                align: "center",
-              }}
-            />
+            <ConnectWallet />
           </div>
+          {/* <Web3Button
+            contractAddress={"0x7325BD0BD2dcd2cDfC5f43A2763a43bcFdA202e3"}
+            action={() =>
+              addContact({
+                args: ["0x03305A2C9d2030841576F7480D7E2eE45599f7D1", "John"],
+              })
+            }
+          >
+            Test Add Contact
+          </Web3Button> */}
         </div>
 
         <div className="grid">

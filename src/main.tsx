@@ -1,18 +1,8 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
 import App from "./App";
-import {
-  ThirdwebProvider,
-  smartWallet,
-  embeddedWallet,
-  metamaskWallet,
-} from "@thirdweb-dev/react";
+import { ThirdwebProvider, embeddedWallet } from "@thirdweb-dev/react";
 import "./styles/globals.css";
-
-// This is the chain your dApp will work on.
-// Change this to the chain your app is built for.
-// You can also import additional chains from `@thirdweb-dev/chains` and pass them directly.
-// const activeChain = "ethereum";
 
 const chainlet = {
   // Required information for connecting to the network
@@ -35,11 +25,6 @@ const chainlet = {
   name: "Tutorials World 2", // Name of the network
 };
 
-const smartWalletOptions = {
-  factoryAddress: "0x5AFfb5104aD872F2F7452f2cFc5D9540ecbed945",
-  gasless: true,
-};
-
 const container = document.getElementById("root");
 const root = createRoot(container!);
 root.render(
@@ -48,16 +33,11 @@ root.render(
       activeChain={chainlet}
       clientId={import.meta.env.VITE_TEMPLATE_CLIENT_ID}
       supportedWallets={[
-        metamaskWallet(),
-        // smartWallet(
-        //   metamaskWallet(),
-        //   embeddedWallet({
-        //     auth: {
-        //       options: ["google", "email"],
-        //     },
-        //   }),
-        //   smartWalletOptions
-        // ),
+        embeddedWallet({
+          auth: {
+            options: ["google", "email"],
+          },
+        }),
       ]}
     >
       <App />

@@ -4,7 +4,7 @@ import App from "./App";
 import { ThirdwebProvider, embeddedWallet } from "@thirdweb-dev/react";
 import "./styles/globals.css";
 
-const chainlet = {
+export const chainlet = {
   // Required information for connecting to the network
   chainId: 2705143118829000, // Chain ID of the network
   rpc: [

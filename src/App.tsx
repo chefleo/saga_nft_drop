@@ -1,21 +1,12 @@
 import {
-  ConnectWallet,
   useAddress,
   useContract,
-  useContractRead,
-  useContractWrite,
   Web3Button,
   ThirdwebNftMedia,
   useNFT,
-  useWallet,
-  useSigner,
 } from "@thirdweb-dev/react";
 import "./styles/Home.css";
 
-import {
-  address as addressBookContract,
-  abi as addressBookAbi,
-} from "./constant/addressBook.json";
 import {
   address as EntryPointContract,
   abi as EntryPointAbi,
@@ -30,52 +21,19 @@ import { abi as AccountAbi } from "./constant/account.json";
 import { abi as sagaNFTAbi } from "./constant/sagaNFT.json";
 
 import Header from "./components/Header";
-import { chainlet } from "./main";
 
 import {
   encodeFunctionData,
   createWalletClient,
-  custom,
   http,
-  publicActions,
-  parseEther,
   getContractAddress,
   createPublicClient,
-  parseUnits,
   parseGwei,
-  isAddress,
 } from "viem";
 
-import { privateKeyToAccount } from "viem/accounts";
+import { tutorialsworld } from "./lib/chainlet";
 
-export const tutorialsworld = {
-  id: 2705143118829000,
-  name: "tutorialsworldtwo",
-  network: "Tutorials World 2",
-  nativeCurrency: {
-    decimals: 18,
-    name: "TWT",
-    symbol: "TWT",
-  },
-  rpcUrls: {
-    public: {
-      http: [
-        "https://tutorialworldtwo-2705143118829000-1.jsonrpc.testnet-sp1.sagarpc.io",
-      ],
-    },
-    default: {
-      http: [
-        "https://tutorialworldtwo-2705143118829000-1.jsonrpc.testnet-sp1.sagarpc.io",
-      ],
-    },
-  },
-  blockExplorers: {
-    default: {
-      name: "Tutorials World Explorer",
-      url: "https://tutorialworldtwo-2705143118829000-1.testnet-sp1.sagaexplorer.io/",
-    },
-  },
-};
+import { privateKeyToAccount } from "viem/accounts";
 
 export default function Home() {
   const address = useAddress();
@@ -86,22 +44,21 @@ export default function Home() {
 
   const { data: nft } = useNFT(sagaNFT, "0");
 
-  // const accountDev = privateKeyToAccount(import.meta.env.VITE_PRIVATE_KEY);
+  const accountDev = privateKeyToAccount(import.meta.env.VITE_PRIVATE_KEY);
+
+  const devWallet = createWalletClient({
+    account: accountDev,
+    chain: tutorialsworld,
+    transport: http(),
+  });
 
   const claimNFT = async () => {
-    const userWallet = createWalletClient({
-      account: address as `0x${string}`,
-      chain: tutorialsworld,
-      transport: http(),
-    });
-
-    // console.log("userWallet", userWallet);
+    console.log("devWallet", devWallet);
 
     const client = createPublicClient({
       chain: tutorialsworld,
       transport: http(),
     });
-    // console.log(client);
 
     const smartWallet = getContractAddress({
       from: accountFactoryContract as `0x${string}`,
@@ -192,12 +149,13 @@ export default function Home() {
       address: EntryPointContract,
       abi: EntryPointAbi,
       functionName: "handleOps",
-      args: [[userOp], address],
+      args: [[userOp], accountDev.address],
     });
 
     console.log("request", request);
 
-    const hash = await userWallet.writeContract(request);
+    // @ts-ignore
+    const hash = await devWallet.writeContract(request);
 
     console.log(hash);
 
@@ -205,17 +163,7 @@ export default function Home() {
     // console.log("Nonce:", Number(nonce));
     // console.log("Initcode:", initCode);
     // console.log("Balance:", balance);
-    // try {
-    //   if (address === undefined)
-    //     return console.log("Please connect your wallet");
-    //   const data = await sagaNFT?.erc1155.claimTo(address, 0, 1);
-    //   console.info("contract call successs", data);
-    // } catch (err) {
-    //   console.error("contract call failure", err);
-    // }
   };
-
-  // console.log(nft?.metadata);
 
   return (
     <main className="w-full">

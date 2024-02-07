@@ -35,6 +35,7 @@ import { tutorialsworld } from "./lib/chainlet";
 
 import { privateKeyToAccount } from "viem/accounts";
 import LoadingNFT from "./components/LoadingNFT";
+import { Toaster, toast } from "sonner";
 
 export default function Home() {
   const address = useAddress();
@@ -54,7 +55,7 @@ export default function Home() {
   });
 
   const claimNFT = async () => {
-    console.log("devWallet", devWallet);
+    // console.log("devWallet", devWallet);
 
     const client = createPublicClient({
       chain: tutorialsworld,
@@ -160,6 +161,16 @@ export default function Home() {
 
     console.log(hash);
 
+    return toast.success(`NFT Claimed`, {
+      action: {
+        label: "See your nft",
+        onClick: () =>
+          parent.open(
+            `https://tutorialworldtwo-2705143118829000-1.testnet-sp1.sagaexplorer.io/address/${address}?tab=tokens_erc1155`
+          ),
+      },
+    });
+
     // console.log("smart wallet:", smartWallet);
     // console.log("Nonce:", Number(nonce));
     // console.log("Initcode:", initCode);
@@ -168,6 +179,7 @@ export default function Home() {
 
   return (
     <main className="w-full">
+      <Toaster position="top-center" richColors />
       <Header />
       <div className="container">
         <div className="flex flex-col justify-center items-center py-8">

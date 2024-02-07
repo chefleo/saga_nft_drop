@@ -34,6 +34,7 @@ import {
 import { tutorialsworld } from "./lib/chainlet";
 
 import { privateKeyToAccount } from "viem/accounts";
+import LoadingNFT from "./components/LoadingNFT";
 
 export default function Home() {
   const address = useAddress();
@@ -66,7 +67,7 @@ export default function Home() {
     });
 
     // @ts-ignore
-    const nonce = await client.readContract({
+    let nonce = await client.readContract({
       address: EntryPointContract as `0x${string}`,
       abi: EntryPointAbi,
       functionName: "getNonce",
@@ -171,12 +172,16 @@ export default function Home() {
       <div className="container">
         <div className="flex flex-col justify-center items-center py-8">
           <div className="flex flex-col justify-center items-center w-full sm:w-2/3 py-3 px-2 mt-4 bg-gray-900 rounded-xl">
-            {nft && (
+            {nft ? (
               <>
                 <h1 className="text-center font-semibold text-xl sm:text-2xl my-2 sm:my-6">
                   {nft.metadata.name}
                 </h1>
                 <ThirdwebNftMedia metadata={nft.metadata} />
+              </>
+            ) : (
+              <>
+                <LoadingNFT />
               </>
             )}
             {address ? (
@@ -189,7 +194,7 @@ export default function Home() {
                 </Web3Button>
               </div>
             ) : (
-              <div className="p-3 my-8 bg-white text-black rounded-xl">
+              <div className="p-3 my-8 bg-gray-300 text-black font-medium rounded-xl">
                 Sign in to claim the nft
               </div>
             )}

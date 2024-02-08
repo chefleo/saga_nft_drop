@@ -4,6 +4,24 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer utilities {
+  .delay_45 {
+    animation-delay: -0.45s;
+  }
+  .delay_30 {
+    animation-delay: -0.3s;
+  }
+  .delay_15 {
+    animation-delay: -0.15s;
+  }
+}
+
+@layer components {
+  .spinner {
+    @apply box-border block absolute border-2 border-solid border-x-transparent border-b-transparent rounded-[50%] animate-spinner;
+  }
+}
+
 html,
 body {
   padding: 0;

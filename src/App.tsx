@@ -89,7 +89,7 @@ export default function Home() {
         encodeFunctionData({
           abi: accountFactoryAbi,
           functionName: "createAccount",
-          args: [address],
+          args: [accountDev.address],
         }).slice(2);
     }
 

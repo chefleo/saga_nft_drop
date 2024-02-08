@@ -22,6 +22,8 @@ import { abi as sagaNFTAbi } from "./constant/sagaNFT.json";
 
 import Header from "./components/Header";
 
+import { useState } from "react";
+
 import {
   encodeFunctionData,
   createWalletClient,
@@ -38,10 +40,12 @@ import LoadingNFT from "./components/LoadingNFT";
 import { Toaster, toast } from "sonner";
 
 export default function Home() {
+  const [isLoading, setIsLoading] = useState(false);
   const address = useAddress();
 
   const { contract: sagaNFT } = useContract(
-    "0xc6117A943756157D9a7a9f3386d780D9107E4B05"
+    "0xc6117A943756157D9a7a9f3386d780D9107E4B05",
+    sagaNFTAbi
   );
 
   const { data: nft } = useNFT(sagaNFT, "0");
@@ -55,7 +59,7 @@ export default function Home() {
   });
 
   const claimNFT = async () => {
-    // console.log("devWallet", devWallet);
+    setIsLoading(true);
 
     const client = createPublicClient({
       chain: tutorialsworld,
@@ -161,6 +165,8 @@ export default function Home() {
 
     console.log(hash);
 
+    setIsLoading(false);
+
     return toast.success(`NFT Claimed`, {
       action: {
         label: "See your nft",
@@ -197,14 +203,36 @@ export default function Home() {
               </>
             )}
             {address ? (
-              <div className="my-8">
-                <Web3Button
-                  contractAddress={EntryPointContract}
-                  action={() => claimNFT()}
+              isLoading ? (
+                <div
+                  className={`my-8 flex justify-center items-center bg-white w-[200px] px-3 py-4 rounded-xl text-white font-semibold`}
                 >
-                  Claim NFT
-                </Web3Button>
-              </div>
+                  {/* Spinner */}
+                  <div className={`h-5 w-5 inline-block relative pt-0.5`}>
+                    <div className={`h-4 w-4 spinner border-t-black`}></div>
+                    <div
+                      className={`h-4 w-4 spinner delay_45 border-t-black`}
+                    ></div>
+                    <div
+                      className={`h-4 w-4 spinner delay_30 border-t-black`}
+                    ></div>
+                    <div
+                      className={`h-4 w-4 spinner delay_15 border-t-black `}
+                    ></div>
+                  </div>
+                </div>
+              ) : (
+                <>
+                  <div className="my-8">
+                    <button
+                      className="bg-white px-3 py-4 text-black font-medium rounded-xl w-[200px]"
+                      onClick={() => claimNFT()}
+                    >
+                      Claim NFT
+                    </button>
+                  </div>
+                </>
+              )
             ) : (
               <div className="p-3 my-8 bg-gray-300 text-black font-medium rounded-xl">
                 Sign in to claim the nft

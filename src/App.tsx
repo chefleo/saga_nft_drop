@@ -173,7 +173,7 @@ export default function Home() {
         label: "See your nft",
         onClick: () =>
           parent.open(
-            `https://tutorialworldtwo-2705143118829000-1.testnet-sp1.sagaexplorer.io/address/${address}?tab=tokens_erc1155`
+            `https://tutorialworldtwo-2705143118829000-1.testnet-srv1.sagaexplorer.io/address/${address}?tab=tokens_erc1155`
           ),
       },
     });

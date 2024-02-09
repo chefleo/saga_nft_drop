@@ -8,7 +8,7 @@ export const chainlet = {
   // Required information for connecting to the network
   chainId: 2705143118829000, // Chain ID of the network
   rpc: [
-    "https://tutorialworldtwo-2705143118829000-1.jsonrpc.testnet-sp1.sagarpc.io",
+    "https://tutorialworldtwo-2705143118829000-1.jsonrpc.testnet-srv2.sagarpc.io",
   ], // Array of RPC URLs to use
 
   // Information for adding the network to your wallet (how it will appear for first time users) === \\

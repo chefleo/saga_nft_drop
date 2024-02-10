@@ -152,26 +152,6 @@ export default function Home() {
       "0x",
     ];
 
-    // const userOp = {
-    //   smartWallet, // smart account address
-    //   nonce: nonce,
-    //   initCode: initCode, // Creation of the wallet
-    //   callData: callData,
-
-    //   // Gas section
-    //   callGasLimit: 900_000,
-    //   verificationGasLimit: 500_000,
-    //   preVerificationGas: 100_000,
-    //   maxFeePerGas: parseGwei("10"),
-    //   maxPriorityFeePerGas: parseGwei("5"),
-
-    //   // Advanced aa section
-    //   paymasterAndData: PM_Address,
-    //   signature: "0x",
-    // };
-
-    // console.log("EntryPointContract", EntryPointContract);
-
     const userOpHash = await client.readContract({
       address: EntryPointContract as `0x${string}`,
       abi: EntryPointAbi,
@@ -181,20 +161,8 @@ export default function Home() {
 
     userOp[userOp.length - 1] = await accountDev.signMessage({
       // @ts-ignore
-      message: Uint8Array.from(Buffer.from(userOpHash, "hex")),
+      message: { raw: toBytes(userOpHash) },
     });
-
-    // const addressTest = await recoverMessageAddress({
-    //   // @ts-ignore
-    //   message: Uint8Array.from(Buffer.from(userOpHash, "hex")),
-    //   signature,
-    // });
-
-    // userOp.signature = signature;
-    // userOp[userOp.length - 1] = signature;
-
-    // console.log({ userOpHash, userOp });
-    console.log(userOp[userOp.length - 1]);
 
     // @ts-ignore
     const { request } = await client.simulateContract({

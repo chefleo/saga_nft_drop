@@ -42,7 +42,6 @@ import { tutorialsworld } from "./lib/chainlet";
 import { privateKeyToAccount } from "viem/accounts";
 import LoadingNFT from "./components/LoadingNFT";
 import { Toaster, toast } from "sonner";
-import { useState } from "react";
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState(false);

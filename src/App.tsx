@@ -31,6 +31,8 @@ import {
   getContractAddress,
   createPublicClient,
   parseGwei,
+  formatUnits,
+  parseEther,
 } from "viem";
 
 import { tutorialsworld } from "./lib/chainlet";
@@ -93,15 +95,33 @@ export default function Home() {
         }).slice(2);
     }
 
-    // // @ts-ignore
-    // const balance = await client.readContract({
-    //   address: EntryPointContract as `0x${string}`,
-    //   abi: EntryPointAbi,
-    //   functionName: "balanceOf",
-    //   args: [smartWallet],
-    // });
+    // @ts-ignore
+    const balance = await client.readContract({
+      address: EntryPointContract as `0x${string}`,
+      abi: EntryPointAbi,
+      functionName: "balanceOf",
+      args: [smartWallet],
+    });
 
-    // console.log(balance);
+    console.log(balance);
+
+    // @ts-ignore
+    if (formatUnits(balance, 18) > 1) {
+      console.log(
+        "No needed to be funded, balance of the smart wallet:",
+        formatUnits(balance, 18)
+      );
+    } else {
+      // Fund the smart account
+      await devWallet.writeContract({
+        address: EntryPointContract as `0x${string}`,
+        abi: EntryPointAbi,
+        functionName: "depositTo",
+        args: [smartWallet],
+        value: parseEther("1"),
+      });
+      console.log("Smart Wallet funded");
+    }
 
     const configClaim = [
       "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE",

@@ -21,7 +21,6 @@
     @apply box-border block absolute border-2 border-solid border-x-transparent border-b-transparent rounded-[50%] animate-spinner;
   }
 }
-
 html,
 body {
   padding: 0;

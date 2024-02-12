@@ -1,64 +1,27 @@
 {
-  "address": "",
+  "address": "0x0bE1Ce3bFF7FA929e3C9e1395E97fABfB5084b5D",
   "abi": [
     {
       "inputs": [
         {
-          "internalType": "address",
-          "name": "_owner",
-          "type": "address"
-        }
-      ],
-      "stateMutability": "nonpayable",
-      "type": "constructor"
-    },
-    {
-      "inputs": [],
-      "name": "count",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "contractAddr",
-          "type": "address"
-        },
-        {
-          "internalType": "uint256",
-          "name": "value",
-          "type": "uint256"
+          "internalType": "enum IPaymaster.PostOpMode",
+          "name": "mode",
+          "type": "uint8"
         },
         {
           "internalType": "bytes",
-          "name": "func",
+          "name": "context",
           "type": "bytes"
+        },
+        {
+          "internalType": "uint256",
+          "name": "actualGasCost",
+          "type": "uint256"
         }
       ],
-      "name": "execute",
+      "name": "postOp",
       "outputs": [],
       "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "owner",
-      "outputs": [
-        {
-          "internalType": "address",
-          "name": "",
-          "type": "address"
-        }
-      ],
-      "stateMutability": "view",
       "type": "function"
     },
     {
@@ -122,12 +85,12 @@
             }
           ],
           "internalType": "struct UserOperation",
-          "name": "userOp",
+          "name": "",
           "type": "tuple"
         },
         {
           "internalType": "bytes32",
-          "name": "userOpHash",
+          "name": "",
           "type": "bytes32"
         },
         {
@@ -136,15 +99,20 @@
           "type": "uint256"
         }
       ],
-      "name": "validateUserOp",
+      "name": "validatePaymasterUserOp",
       "outputs": [
+        {
+          "internalType": "bytes",
+          "name": "context",
+          "type": "bytes"
+        },
         {
           "internalType": "uint256",
           "name": "validationData",
           "type": "uint256"
         }
       ],
-      "stateMutability": "view",
+      "stateMutability": "pure",
       "type": "function"
     }
   ]

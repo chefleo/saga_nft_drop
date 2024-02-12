@@ -31,13 +31,18 @@ import {
   getContractAddress,
   createPublicClient,
   parseGwei,
+  toBytes,
+  recoverMessageAddress,
 } from "viem";
+
+import { address as PM_Address } from "./constant/paymaster.json";
 
 import { tutorialsworld } from "./lib/chainlet";
 
 import { privateKeyToAccount } from "viem/accounts";
 import LoadingNFT from "./components/LoadingNFT";
 import { Toaster, toast } from "sonner";
+import { useState } from "react";
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState(false);
@@ -94,14 +99,14 @@ export default function Home() {
     }
 
     // // @ts-ignore
-    // const balance = await client.readContract({
-    //   address: EntryPointContract as `0x${string}`,
-    //   abi: EntryPointAbi,
-    //   functionName: "balanceOf",
-    //   args: [smartWallet],
-    // });
+    const balance = await client.readContract({
+      address: EntryPointContract as `0x${string}`,
+      abi: EntryPointAbi,
+      functionName: "balanceOf",
+      args: [PM_Address],
+    });
 
-    // console.log(balance);
+    console.log("balance paymaster", balance);
 
     const configClaim = [
       "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE",
@@ -131,7 +136,7 @@ export default function Home() {
       args: [sagaNFT?.getAddress(), 0, encodedClaim],
     });
 
-    const userOp = [
+    let userOp = [
       smartWallet, // smart account address
       nonce,
       initCode, // Creation of the wallet if first time
@@ -145,13 +150,25 @@ export default function Home() {
       parseGwei("5"),
 
       // Advanced aa section
-      "0x",
+      PM_Address,
       "0x",
     ];
 
+    const userOpHash = await client.readContract({
+      address: EntryPointContract as `0x${string}`,
+      abi: EntryPointAbi,
+      functionName: "getUserOpHash",
+      args: [userOp],
+    });
+
+    userOp[userOp.length - 1] = await accountDev.signMessage({
+      // @ts-ignore
+      message: { raw: toBytes(userOpHash) },
+    });
+
     // @ts-ignore
     const { request } = await client.simulateContract({
-      // account: address,
+      account: accountDev,
       address: EntryPointContract as `0x${string}`,
       abi: EntryPointAbi,
       functionName: "handleOps",
@@ -161,7 +178,12 @@ export default function Home() {
     console.log("request", request);
 
     // @ts-ignore
-    const hash = await devWallet.writeContract(request);
+    const hash = await devWallet.writeContract({
+      address: EntryPointContract as `0x${string}`,
+      abi: EntryPointAbi,
+      functionName: "handleOps",
+      args: [[userOp], accountDev.address],
+    });
 
     console.log(hash);
 

@@ -109,6 +109,7 @@ export default function Home() {
     if (formatUnits(balance, 18) > 1) {
       console.log(
         "No needed to be funded, balance of the smart wallet:",
+        // @ts-ignore
         formatUnits(balance, 18)
       );
     } else {

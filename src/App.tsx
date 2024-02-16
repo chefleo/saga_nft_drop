@@ -172,7 +172,6 @@ export default function Home() {
 
     // @ts-ignore
     const { request } = await client.simulateContract({
-      // account: address,
       address: EntryPointContract as `0x${string}`,
       abi: EntryPointAbi,
       functionName: "handleOps",

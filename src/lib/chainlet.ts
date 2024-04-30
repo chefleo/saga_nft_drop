@@ -10,19 +10,19 @@ export const tutorialsworld = {
   rpcUrls: {
     public: {
       http: [
-        "https://tutorialworldtwo-2705143118829000-1.jsonrpc.testnet-srv2.sagarpc.io",
+        "https://tutorialworldtwo-2705143118829000-1.jsonrpc.testnet.sagarpc.io",
       ],
     },
     default: {
       http: [
-        "https://tutorialworldtwo-2705143118829000-1.jsonrpc.testnet-srv2.sagarpc.io",
+        "https://tutorialworldtwo-2705143118829000-1.jsonrpc.testnet.sagarpc.io",
       ],
     },
   },
   blockExplorers: {
     default: {
       name: "Tutorials World Explorer",
-      url: "https://tutorialworldtwo-2705143118829000-1.testnet-srv1.sagaexplorer.io/",
+      url: "https://tutorialworldtwo-2705143118829000-1.testnet.sagaexplorer.io/",
     },
   },
 };
